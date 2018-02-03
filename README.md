@@ -122,3 +122,16 @@ LCD ред 2: 1 2 5
 
 ```
 ...
+
+## Built With
+
+* [MikroC](https://www.mikroe.com/mikroc) - Programing language for PIC microcontroler
+
+
+## Authors
+
+* **Viktor Todev** - *Initial work* - [todorow](https://github.com/todorow)
+* **Ivana Stojanoska** - * contributor* 
+* **Mila Dodeva** - * contributor* 
+
+
