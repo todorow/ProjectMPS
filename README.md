@@ -131,7 +131,7 @@ LCD ред 2: 1 2 5
 ## Authors
 
 * **Viktor Todev** - *Initial work* - [todorow](https://github.com/todorow)
-* **Ivana Stojanoska** - * contributor* 
-* **Mila Dodeva** - * contributor* 
+* **Ivana Stojanoska** 
+* **Mila Dodeva**  
 
 
