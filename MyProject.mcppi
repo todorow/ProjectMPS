@@ -24,7 +24,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=1
+File0=MyProject.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -32,10 +33,10 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=3
+Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\
-Path2=C:\Users\vikto\proba\
+Path2=C:\Users\vikto\Project7\ProjectMPS\
 [HEADER_PATH]
 Count=0
 [HEADERS]

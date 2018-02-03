@@ -395,6 +395,7 @@ cf_read_sector
 cf_write_byte
 cf_write_init
 cf_write_sector
+ch
 character8x7
 chs0
 chs0_bit
@@ -641,6 +642,7 @@ ispunct
 isspace
 isupper
 isxdigit
+j
 keypad_init
 keypad_key_click
 keypad_key_press
@@ -763,6 +765,8 @@ not_write_bit
 nr_free_blocks
 nrm3232
 nrm4032
+numu
+numusers
 oerr
 oerr_bit
 option_reg
@@ -968,6 +972,7 @@ re3
 re3_bit
 read_write
 read_write_bit
+readfromuart
 res032
 rp0
 rp0_bit
@@ -1398,6 +1403,7 @@ t6963c_writecommand
 t6963c_writedata
 tan
 tanh
+text
 time_datetoepoch
 time_epochtodate
 time_jd1970
