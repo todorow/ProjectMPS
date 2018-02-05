@@ -23,12 +23,15 @@ void main() {
  Lcd_Init();
  Lcd_Cmd(_LCD_CURSOR_OFF);
  Lcd_Cmd(_LCD_CLEAR);
+ C1ON_bit = 0;
+ C2ON_bit = 0;
  UART1_Init(9600);
  Delay_ms(5);
  numUsers=0;
  j=0;
  while(1)
  {
+ Lcd_Out(1,1,string);
  ReadFromUART();
 
  Lcd_Cmd(_LCD_CLEAR);
@@ -46,7 +49,7 @@ void main() {
 
  Lcd_Cmd(_LCD_CLEAR);
  Lcd_Out(2,1,strstr(string,"START"));
- strcpy(string,"");
+ memset(string,0,sizeof(string));
  Lcd_Cmd(_LCD_CLEAR);
  ReadFromUART();
 
@@ -56,15 +59,11 @@ void main() {
  }
  numUsers++;
  EEPROM_Write(0x00,numUsers);
- for(j=0; j<16; j++){
- ch = EEPROM_Read(0x10 + j);
- text[j]=ch;
- }
- Lcd_Out(1,1,text);
-
- }
-
+#line 67 "C:/Users/vikto/Project7/ProjectMPS/MyProject.c"
  break;
+ }
+
+
 
  }
 
@@ -87,7 +86,7 @@ void main() {
  Lcd_Out(2,1,strstr(string,"END"));
 
  }
- strcpy(string,"");
+ memset(string,0,sizeof(string));
  }
 
 

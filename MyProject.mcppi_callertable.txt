@@ -9,9 +9,6 @@ main
 		Delay_5500us
 		Delay_50us
 	UART1_Init
-	ReadFromUART
-		UART1_Data_Ready
-		UART1_Read
 	Lcd_Out
 		Lcd_Cmd
 			Delay_1us
@@ -22,11 +19,13 @@ main
 				Delay_1us
 				Delay_5500us
 				Delay_50us
+	ReadFromUART
+		UART1_Data_Ready
+		UART1_Read
 	strstr
 		strlen
 		strncmp
 		strchr
 	strcmp
-	strcpy
+	memset
 	EEPROM_Write
-	EEPROM_Read
