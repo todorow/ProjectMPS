@@ -155,21 +155,21 @@ L__main30:
 	CALL       _Lcd_Cmd+0
 ;MyProject.c,50 :: 		ReadFromUART();
 	CALL       _ReadFromUART+0
-;MyProject.c,52 :: 		for(j=0; j<16; j++)
+;MyProject.c,52 :: 		for(j=0; j<=15; j++)
 	CLRF       _j+0
 	CLRF       _j+1
 L_main7:
 	MOVLW      128
-	XORWF      _j+1, 0
 	MOVWF      R0+0
 	MOVLW      128
+	XORWF      _j+1, 0
 	SUBWF      R0+0, 0
 	BTFSS      STATUS+0, 2
 	GOTO       L__main31
-	MOVLW      16
-	SUBWF      _j+0, 0
+	MOVF       _j+0, 0
+	SUBLW      15
 L__main31:
-	BTFSC      STATUS+0, 0
+	BTFSS      STATUS+0, 0
 	GOTO       L_main8
 ;MyProject.c,54 :: 		EEPROM_Write(0x10 + j,string[j]);
 	MOVF       _j+0, 0
@@ -181,7 +181,7 @@ L__main31:
 	MOVF       INDF+0, 0
 	MOVWF      FARG_EEPROM_Write_data_+0
 	CALL       _EEPROM_Write+0
-;MyProject.c,52 :: 		for(j=0; j<16; j++)
+;MyProject.c,52 :: 		for(j=0; j<=15; j++)
 	INCF       _j+0, 1
 	BTFSC      STATUS+0, 2
 	INCF       _j+1, 1

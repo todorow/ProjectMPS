@@ -50,7 +50,7 @@ void main() {
  Lcd_Cmd(_LCD_CLEAR);
  ReadFromUART();
 
- for(j=0; j<16; j++)
+ for(j=0; j<=15; j++)
  {
  EEPROM_Write(0x10 + j,string[j]);
  }
