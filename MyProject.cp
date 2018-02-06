@@ -29,8 +29,10 @@ void main() {
  {
  Lcd_Out(1,1,string);
  ReadFromUART();
+
  Lcd_Cmd(_LCD_CLEAR);
  Lcd_Out(1,1,string);
+ Delay_ms(20);
  ADDOption();
  if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
  Lcd_Out(2,1,strstr(string,"ERASE"));
@@ -53,6 +55,55 @@ void main() {
 
 
 }
+int ValidateInput()
+{
+ if(strcmp(strstr(string," ")," ")==0)
+ {
+
+ char *userCode;
+ int counter=0;
+ int iterator=0;
+ int locker=1;
+ Lcd_Out(1,1,"DEBUG");
+ for(j=0;j<strlen(string);j++){
+ if(isdigit(string[j])&&locker==1){
+ counter++;
+ Lcd_Out(1,1,"DEBUG2");
+ }else if(isspace(string[j])&&counter==j){
+ locker=0;
+ Lcd_Out(1,1,"DEBUG3");
+
+
+ }else{
+ Lcd_Out(1,1,"DEBUG4");
+ return 0;
+ }
+ if(locker==0){
+ if(isdigit(string[j])){
+ Lcd_Out(1,1,"DEBUG");
+ userCode[iterator]=string[j];
+ iterator++;
+
+ } else{
+ return 0;
+ }
+ }
+
+
+ }
+ if(atoi(userCode)>1023&&atoi(userCode)!=0){
+ return 0;
+ }else{
+ Lcd_Out(1,1,"DEBUG");
+ return 1;
+ }
+ }else{
+ return 0;
+ }
+
+
+
+}
 void init(){
  Lcd_Init();
  Lcd_Cmd(_LCD_CURSOR_OFF);
@@ -71,6 +122,7 @@ if(strcmp(strstr(string,"ADD"),"ADD")==0)
  while(strcmp(strstr(string,"START"),"START")!=0)
  {
  ReadFromUART();
+
 
 
  if(strcmp(strstr(string,"START"),"START")==0)
@@ -98,7 +150,7 @@ void WriteInEEPROM(){
  addr+=AddressVal();
 
  ReadFromUART();
-
+ if( ValidateInput()!=0){
  for(j=0; j<=15; j++)
  {
  EEPROM_Write(addr + j,string[j]);
@@ -107,6 +159,12 @@ void WriteInEEPROM(){
  numUsers++;
 
  EEPROM_Write(0x00,numUsers);
+ Lcd_Out(1,1,"OK");
+
+ }else{
+ Lcd_Out(1,1,"EROR");
+
+ }
  }
 }
 int NumOfUsers(){
@@ -149,7 +207,7 @@ return 0;
 void ReadFromUART(){
 i=0;
  while(1) {
- Delay_ms(5);
+ Delay_ms(10);
  if (UART1_Data_Ready())
  {
  uart_rd = UART1_Read();

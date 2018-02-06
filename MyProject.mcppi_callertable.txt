@@ -69,12 +69,44 @@ main
 			ReadFromUART
 				UART1_Data_Ready
 				UART1_Read
+			ValidateInput
+				strstr
+					strlen
+					strncmp
+					strchr
+				strcmp
+				Lcd_Out
+					Lcd_Cmd
+						Delay_1us
+						Delay_5500us
+						Delay_50us
+					Lcd_Chr_CP
+						Lcd_Cmd
+							Delay_1us
+							Delay_5500us
+							Delay_50us
+				strlen
+				isdigit
+				isspace
+				atoi
+					isdigit
+					Mul_16X16_U
 			EEPROM_Write
 			NumOfUsers
 				EEPROM_Read
 				atoi
 					isdigit
 					Mul_16X16_U
+			Lcd_Out
+				Lcd_Cmd
+					Delay_1us
+					Delay_5500us
+					Delay_50us
+				Lcd_Chr_CP
+					Lcd_Cmd
+						Delay_1us
+						Delay_5500us
+						Delay_50us
 	strstr
 		strlen
 		strncmp
