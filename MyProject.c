@@ -14,9 +14,13 @@ sbit LCD_D7_Direction at TRISD3_bit;
 // End LCD module connections
 char string[16];
 char *text;
-int i,j,numUsers;
-char uart_rd,ch,numU;
+int i,j,numUsers,addr;
+char uart_rd,ch,numU,users;
 void ReadFromUART();
+int AddressVal();
+int NumOfUsers();
+void WriteInEEPROM();
+void ADDOption();
 void main() {
 
               Lcd_Init();
@@ -26,7 +30,7 @@ void main() {
               C2ON_bit = 0;
               UART1_Init(9600);
              Delay_ms(5);
-              numUsers=0;
+              addr=0x00;
               j=0;
               while(1)
               {
@@ -36,44 +40,8 @@ void main() {
             Lcd_Cmd(_LCD_CLEAR);
             Lcd_Out(1,1,string);
             
-            if(strcmp(strstr(string,"ADD"),"ADD")==0)
-            {
-              Lcd_Out(2,1,strstr(string,"ADD"));
-              while(strcmp(strstr(string,"START"),"START")!=0)
-              {
-                ReadFromUART();
 
-                if(strcmp(strstr(string,"START"),"START")==0)
-                {
-
-                  Lcd_Cmd(_LCD_CLEAR);
-                  Lcd_Out(2,1,strstr(string,"START"));
-                  memset(string,0,sizeof(string));
-                  Lcd_Cmd(_LCD_CLEAR);
-                  ReadFromUART();
-
-                   for(j=0; j<=15; j++)
-                   {
-                    EEPROM_Write(0x10 + j,string[j]);
-                    }
-                   numUsers++;
-                   EEPROM_Write(0x00,numUsers);
-                              /*for(j=0; j<16; j++){
-                              ch = EEPROM_Read(0x10 + j);
-                              text[j]=ch;
-                              } */
-
-
-                     break;
-                   }
-
-
-
-                      }
-                             
-
-                  }
-
+              ADDOption();
              if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
              Lcd_Out(2,1,strstr(string,"ERASE"));
             while(strcmp(strstr(string,"START"),"START")!=0){
@@ -94,6 +62,88 @@ void main() {
            }
             
 
+}
+void ADDOption(){
+if(strcmp(strstr(string,"ADD"),"ADD")==0)
+            {
+              Lcd_Out(2,1,strstr(string,"ADD"));
+              while(strcmp(strstr(string,"START"),"START")!=0)
+              {
+                ReadFromUART();
+
+
+                if(strcmp(strstr(string,"START"),"START")==0)
+                {
+
+                  Lcd_Cmd(_LCD_CLEAR);
+                  Lcd_Out(2,1,strstr(string,"START"));
+                  memset(string,0,sizeof(string));
+                  Lcd_Cmd(_LCD_CLEAR);
+
+                     WriteInEEPROM();
+
+                     break;
+                   }
+
+
+
+                      }
+
+
+                  }
+}
+void WriteInEEPROM(){
+  if(AddressVal()!=0){
+                   addr+=AddressVal();
+
+                   ReadFromUART();
+
+                   for(j=0; j<=15; j++)
+                   {
+                    EEPROM_Write(addr + j,string[j]);
+                    }
+                    numUsers=NumOfUsers();
+                    numUsers++;
+
+                   EEPROM_Write(0x00,numUsers);
+                    }
+}
+int NumOfUsers(){
+    ch = EEPROM_Read(0x10);
+    return atoi(ch);
+
+}
+int CheckEEPROM(){
+    users=NumOfUsers();
+    if(users!=255){
+    return 1;
+    
+    }else{
+    return 0;
+    }
+    
+}
+int NextUserNum(){
+    if(CheckEEPROM()){
+      return NumOfUsers()*16;
+    }else{
+      return 16;
+    }
+}
+
+int ValidateUserNum( int num)  {
+if(num>=160){
+return 0;
+}else{
+return 1;
+}
+}
+int AddressVal(){
+if(ValidateUserNum(NextUserNum())){
+return NextUserNum()+16;
+}else{
+return 0;
+}
 }
 void ReadFromUART(){
 i=0;

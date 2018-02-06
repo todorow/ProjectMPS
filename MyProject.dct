@@ -183,6 +183,9 @@ adcs1_bit
 add_32x32_fp
 adden
 adden_bit
+addoption
+addr
+addressval
 adfm
 adfm_bit
 adie
@@ -397,6 +400,7 @@ cf_write_init
 cf_write_sector
 ch
 character8x7
+checkeeprom
 chs0
 chs0_bit
 chs1
@@ -734,6 +738,7 @@ mul_32x32_s
 mul_32x32_u
 mul_8x8_s
 mul_8x8_u
+nextusernum
 not_a
 not_a_bit
 not_address
@@ -765,6 +770,7 @@ not_write_bit
 nr_free_blocks
 nrm3232
 nrm4032
+numofusers
 numu
 numusers
 oerr
@@ -1571,6 +1577,8 @@ ulpwuie
 ulpwuie_bit
 ulpwuif
 ulpwuif_bit
+users
+validateusernum
 vcfg0
 vcfg0_bit
 vcfg1
@@ -1633,6 +1641,7 @@ wren
 wren_bit
 wrerr
 wrerr_bit
+writeineeprom
 wue
 wue_bit
 xtoi
