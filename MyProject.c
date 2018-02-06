@@ -13,38 +13,41 @@ sbit LCD_D6_Direction at TRISD2_bit;
 sbit LCD_D7_Direction at TRISD3_bit;
 // End LCD module connections
 char string[16];
-char *text;
+char text[16];
 int i,j,numUsers,addr;
 char uart_rd,ch,numU,users;
+char *userCode;
+int counter;
+int iterator;
+int locker;
 void ReadFromUART();
 int AddressVal();
 int NumOfUsers();
 void WriteInEEPROM();
 void ADDOption();
 void init();
+void EraseOption();
+int ValidateInput();
+int CheckEEPROM();
+int NextUserNum();
+int ValidateUserNum( int num);
+int AddressVal();
+void findUserId();
+void EraseUser(int address);
+
 void main() {
               init();
               while(1)
               {
               Lcd_Out(1,1,string);
               ReadFromUART();
-              
+
             Lcd_Cmd(_LCD_CLEAR);
             Lcd_Out(1,1,string);
-            Delay_ms(20);
-              ADDOption();
-             if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
-             Lcd_Out(2,1,strstr(string,"ERASE"));
-            while(strcmp(strstr(string,"START"),"START")!=0){
-             ReadFromUART();
+            Delay_ms(1);
+            ADDOption();
+            EraseOption();
 
-            if(strcmp(strstr(string,"START"),"START")==0){
-            
-                   Lcd_Cmd(_LCD_CLEAR);
-                  Lcd_Out(2,1,strstr(string,"START"));
-            }
-            }
-            }
               if(strcmp(strstr(string,"END"),"END")==0){
             Lcd_Out(2,1,strstr(string,"END"));
 
@@ -59,10 +62,10 @@ int ValidateInput()
  if(strcmp(strstr(string," ")," ")==0)
  {
 
- char *userCode;
- int counter=0;
- int iterator=0;
- int locker=1;
+
+  counter=0;
+  iterator=0;
+  locker=1;
  Lcd_Out(1,1,"DEBUG");
    for(j=0;j<strlen(string);j++){
     if(isdigit(string[j])&&locker==1){
@@ -110,13 +113,15 @@ void init(){
               C1ON_bit = 0;
               C2ON_bit = 0;
               UART1_Init(9600);
-             Delay_ms(5);
+              Delay_ms(5);
               addr=0x00;
               j=0;
 }
 void ADDOption(){
+Lcd_Cmd(_LCD_CLEAR);
 if(strcmp(strstr(string,"ADD"),"ADD")==0)
             {
+
               Lcd_Out(2,1,strstr(string,"ADD"));
               while(strcmp(strstr(string,"START"),"START")!=0)
               {
@@ -213,7 +218,7 @@ i=0;
                       string[i]=uart_rd;
                       i++;
                      }
-                     Delay_ms(5);
+                     Delay_ms(10);
                      if (!UART1_Data_Ready()&&i!=0)
                         {
 //
@@ -222,4 +227,50 @@ i=0;
 
                          }
             }
+}
+void findUserId(){
+    memset(string,0,sizeof(string));
+    ReadFromUART();
+    memset(text,0,sizeof(text));
+    addr=0x10;
+    for(i-0;i<10;i++){
+       for(j=0;j<=15;j++)
+    {
+         ch = EEPROM_Read(addr+j);
+         text[j]=ch;
+    } 
+    if(strcmp(strstr(string,text),text)==0){
+       EraseUser(addr);
+    
+    }
+    addr+=16;
+    }
+    
+
+}
+void EraseUser(int address){
+ memset(text,255,sizeof(text));
+    for(j=0; j<=15; j++)
+     {
+        EEPROM_Write(addr + j,text[j]);
+      }
+      numUsers--;
+       EEPROM_Write(0x00,numUsers);
+}
+void EraseOption(){
+    if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
+             Lcd_Out(2,1,strstr(string,"ERASE"));
+            while(strcmp(strstr(string,"START"),"START")!=0){
+             ReadFromUART();
+
+            if(strcmp(strstr(string,"START"),"START")==0){
+
+                   Lcd_Cmd(_LCD_CLEAR);
+                  Lcd_Out(2,1,strstr(string,"START"));
+                  findUserId();
+            }
+            }
+            }
+
+
 }

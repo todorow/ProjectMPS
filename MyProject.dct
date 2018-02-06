@@ -421,6 +421,7 @@ compare_double
 cos
 cose3
 cosh
+counter
 cren
 cren_bit
 csrc
@@ -498,6 +499,8 @@ eepgd_bit
 eeprom_read
 eeprom_write
 equals_double
+eraseoption
+eraseuser
 exp
 expander_init
 expander_init_advanced
@@ -519,6 +522,7 @@ f
 fabs
 ferr
 ferr_bit
+finduserid
 fixsign32
 flash_read
 flash_write
@@ -647,6 +651,7 @@ ispunct
 isspace
 isupper
 isxdigit
+iterator
 j
 keypad_init
 keypad_key_click
@@ -672,6 +677,7 @@ lcd_rs
 lcd_rs_direction
 ldexp
 ldiv
+locker
 log
 log10
 longint2double
@@ -1578,6 +1584,7 @@ ulpwuie
 ulpwuie_bit
 ulpwuif
 ulpwuif_bit
+usercode
 users
 validateinput
 validateusernum
