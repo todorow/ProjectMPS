@@ -600,6 +600,7 @@ i2c1_wr
 ics_auto
 ics_off
 indf
+init
 int2double
 intcon
 inte

@@ -21,26 +21,15 @@ int AddressVal();
 int NumOfUsers();
 void WriteInEEPROM();
 void ADDOption();
+void init();
 void main() {
-
-              Lcd_Init();
-              Lcd_Cmd(_LCD_CURSOR_OFF);
-              Lcd_Cmd(_LCD_CLEAR);
-              C1ON_bit = 0;
-              C2ON_bit = 0;
-              UART1_Init(9600);
-             Delay_ms(5);
-              addr=0x00;
-              j=0;
+              init();
               while(1)
               {
               Lcd_Out(1,1,string);
               ReadFromUART();
-
             Lcd_Cmd(_LCD_CLEAR);
             Lcd_Out(1,1,string);
-            
-
               ADDOption();
              if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
              Lcd_Out(2,1,strstr(string,"ERASE"));
@@ -62,6 +51,17 @@ void main() {
            }
             
 
+}
+void init(){
+            Lcd_Init();
+              Lcd_Cmd(_LCD_CURSOR_OFF);
+              Lcd_Cmd(_LCD_CLEAR);
+              C1ON_bit = 0;
+              C2ON_bit = 0;
+              UART1_Init(9600);
+             Delay_ms(5);
+              addr=0x00;
+              j=0;
 }
 void ADDOption(){
 if(strcmp(strstr(string,"ADD"),"ADD")==0)
