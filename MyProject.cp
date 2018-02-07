@@ -13,6 +13,8 @@ sbit LCD_D5_Direction at TRISD1_bit;
 sbit LCD_D6_Direction at TRISD2_bit;
 sbit LCD_D7_Direction at TRISD3_bit;
 
+char keypadPort at PORTC;
+char kp;
 char string[16];
 char text[16];
 int i,j,numUsers,addr;
@@ -35,6 +37,7 @@ int ValidateUserNum( int num);
 int AddressVal();
 void findUserId();
 void EraseUser(int address);
+void keyPadOn();
 
 void main() {
  init();
@@ -58,8 +61,7 @@ void main() {
 
 
 }
-int ValidateInput()
-{
+int ValidateInput(){
  if(strcmp(strstr(string," ")," ")==0)
  {
 
@@ -194,7 +196,6 @@ int NextUserNum(){
  return 16;
  }
 }
-
 int ValidateUserNum( int num) {
 if(num>=160){
 return 0;
@@ -274,4 +275,32 @@ void EraseOption(){
  }
 
 
+}
+void keyPadOn(){
+while(1){
+ do
+ kp = Keypad_Key_Click();
+ while (!kp);
+ switch (kp)
+ {
+ case 1: kp = 49; break;
+ case 2: kp = 52; break;
+ case 3: kp = 55; break;
+ case 4: kp = 126; break;
+ case 5: kp=50; break;
+ case 6: kp = 53; break;
+ case 7: kp = 56; break;
+ case 8: kp = 48; break;
+ case 9: kp=51; break;
+ case 10: kp = 54; break;
+ case 11: kp = 57; break;
+ case 12: kp = 36; break;
+ case 13: kp = 37; break;
+ case 14: kp = 33; break;
+ case 15: kp = 35; break;
+ case 16: kp = 42; break;
+ }
+
+
+ }
 }

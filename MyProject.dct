@@ -656,6 +656,9 @@ j
 keypad_init
 keypad_key_click
 keypad_key_press
+keypadon
+keypadport
+kp
 labs
 lcd_chr
 lcd_chr_cp

@@ -12,6 +12,8 @@ sbit LCD_D5_Direction at TRISD1_bit;
 sbit LCD_D6_Direction at TRISD2_bit;
 sbit LCD_D7_Direction at TRISD3_bit;
 // End LCD module connections
+char keypadPort at PORTC;
+char kp;
 char string[16];
 char text[16];
 int i,j,numUsers,addr;
@@ -34,6 +36,7 @@ int ValidateUserNum( int num);
 int AddressVal();
 void findUserId();
 void EraseUser(int address);
+void keyPadOn();
 
 void main() {
               init();
@@ -57,8 +60,7 @@ void main() {
             
 
 }
-int ValidateInput()
-{
+int ValidateInput(){
  if(strcmp(strstr(string," ")," ")==0)
  {
 
@@ -193,7 +195,6 @@ int NextUserNum(){
       return 16;
     }
 }
-
 int ValidateUserNum( int num)  {
 if(num>=160){
 return 0;
@@ -273,4 +274,32 @@ void EraseOption(){
             }
 
 
+}
+void keyPadOn(){
+while(1){
+           do
+           kp = Keypad_Key_Click();
+           while (!kp);
+           switch (kp)
+           {
+           case 1:  kp = 49; break; // 1
+           case 2:  kp = 52; break;//4
+           case 3:  kp = 55; break; // 7
+           case 4:  kp = 126; break; // ~  null
+           case 5:  kp=50;  break; // 2
+           case 6:  kp = 53; break; // 5
+           case 7:  kp = 56; break; // 8
+           case 8:  kp = 48; break; // 0
+           case 9:  kp=51;   break; //3
+           case 10: kp = 54; break; // 6
+           case 11: kp = 57; break; // 9
+           case 12: kp = 36; break; // $ BACK
+           case 13: kp = 37; break; // % ID
+           case 14: kp = 33; break; // ! CODE
+           case 15: kp = 35; break; // # EXIT
+           case 16: kp = 42; break; // * ENTER
+           }
+
+
+            }
 }
