@@ -603,14 +603,15 @@ i2c1_stop
 i2c1_wr
 ics_auto
 ics_off
+ifinterupt
 indf
-init
 int2double
 intcon
 inte
 inte_bit
 intedg
 intedg_bit
+interrupt
 intf
 intf_bit
 inttohex
@@ -656,7 +657,6 @@ j
 keypad_init
 keypad_key_click
 keypad_key_press
-keypadon
 keypadport
 kp
 labs
@@ -748,6 +748,8 @@ mul_32x32_s
 mul_32x32_u
 mul_8x8_s
 mul_8x8_u
+mutex
+mutex1
 nextusernum
 not_a
 not_a_bit
@@ -781,7 +783,6 @@ nr_free_blocks
 nrm3232
 nrm4032
 numofusers
-numu
 numusers
 oerr
 oerr_bit
@@ -1419,6 +1420,7 @@ t6963c_writecommand
 t6963c_writedata
 tan
 tanh
+temp_res
 text
 time_datetoepoch
 time_epochtodate
