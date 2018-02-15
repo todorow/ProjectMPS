@@ -1,15 +1,14 @@
 main
 	__CC2DW
 		____DoICP
-	init
-		Lcd_Init
-			Delay_5500us
-			Delay_1us
-		Lcd_Cmd
-			Delay_1us
-			Delay_5500us
-			Delay_50us
-		UART1_Init
+	Lcd_Init
+		Delay_5500us
+		Delay_1us
+	Lcd_Cmd
+		Delay_1us
+		Delay_5500us
+		Delay_50us
+	UART1_Init
 	Lcd_Out
 		Lcd_Cmd
 			Delay_1us
@@ -23,130 +22,17 @@ main
 	ReadFromUART
 		UART1_Data_Ready
 		UART1_Read
-	Lcd_Cmd
-		Delay_1us
-		Delay_5500us
-		Delay_50us
-	ADDOption
-		Lcd_Cmd
-			Delay_1us
-			Delay_5500us
-			Delay_50us
-		strstr
-			strlen
-			strncmp
-			strchr
-		strcmp
-		Lcd_Out
-			Lcd_Cmd
-				Delay_1us
-				Delay_5500us
-				Delay_50us
-			Lcd_Chr_CP
-				Lcd_Cmd
-					Delay_1us
-					Delay_5500us
-					Delay_50us
-		ReadFromUART
-			UART1_Data_Ready
-			UART1_Read
-		memset
-		WriteInEEPROM
-			AddressVal
-				NextUserNum
-					CheckEEPROM
-						NumOfUsers
-							EEPROM_Read
-							atoi
-								isdigit
-								Mul_16X16_U
-					NumOfUsers
-						EEPROM_Read
-						atoi
-							isdigit
-							Mul_16X16_U
-				ValidateUserNum
-			ReadFromUART
-				UART1_Data_Ready
-				UART1_Read
-			ValidateInput
-				strstr
-					strlen
-					strncmp
-					strchr
-				strcmp
-				Lcd_Out
-					Lcd_Cmd
-						Delay_1us
-						Delay_5500us
-						Delay_50us
-					Lcd_Chr_CP
-						Lcd_Cmd
-							Delay_1us
-							Delay_5500us
-							Delay_50us
-				strlen
-				isdigit
-				isspace
-				atoi
-					isdigit
-					Mul_16X16_U
-			EEPROM_Write
-			NumOfUsers
-				EEPROM_Read
-				atoi
-					isdigit
-					Mul_16X16_U
-			Lcd_Out
-				Lcd_Cmd
-					Delay_1us
-					Delay_5500us
-					Delay_50us
-				Lcd_Chr_CP
-					Lcd_Cmd
-						Delay_1us
-						Delay_5500us
-						Delay_50us
-	EraseOption
-		strstr
-			strlen
-			strncmp
-			strchr
-		strcmp
-		Lcd_Out
-			Lcd_Cmd
-				Delay_1us
-				Delay_5500us
-				Delay_50us
-			Lcd_Chr_CP
-				Lcd_Cmd
-					Delay_1us
-					Delay_5500us
-					Delay_50us
-		ReadFromUART
-			UART1_Data_Ready
-			UART1_Read
-		Lcd_Cmd
-			Delay_1us
-			Delay_5500us
-			Delay_50us
-		findUserId
-			memset
-			ReadFromUART
-				UART1_Data_Ready
-				UART1_Read
-			EEPROM_Read
-			strstr
-				strlen
-				strncmp
-				strchr
-			strcmp
-			EraseUser
-				memset
-				EEPROM_Write
 	strstr
 		strlen
 		strncmp
 		strchr
 	strcmp
+	strlen
 	memset
+	EEPROM_Read
+	isspace
+	EEPROM_Write
+	Keypad_Key_Click
+		Keypad_Key_Press
+			Delay_1us
+		Delay_10us

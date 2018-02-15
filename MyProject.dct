@@ -158,6 +158,7 @@ _spi_t6963c_horizontal
 _spi_t6963c_vertical
 _t6963c_horizontal
 _t6963c_vertical
+a
 abden
 abden_bit
 abdovf
@@ -183,9 +184,7 @@ adcs1_bit
 add_32x32_fp
 adden
 adden_bit
-addoption
 addr
-addressval
 adfm
 adfm_bit
 adie
@@ -398,9 +397,7 @@ cf_read_sector
 cf_write_byte
 cf_write_init
 cf_write_sector
-ch
 character8x7
-checkeeprom
 chs0
 chs0_bit
 chs1
@@ -421,7 +418,6 @@ compare_double
 cos
 cose3
 cosh
-counter
 cren
 cren_bit
 csrc
@@ -499,8 +495,6 @@ eepgd_bit
 eeprom_read
 eeprom_write
 equals_double
-eraseoption
-eraseuser
 exp
 expander_init
 expander_init_advanced
@@ -522,7 +516,6 @@ f
 fabs
 ferr
 ferr_bit
-finduserid
 fixsign32
 flash_read
 flash_write
@@ -603,7 +596,6 @@ i2c1_stop
 i2c1_wr
 ics_auto
 ics_off
-ifinterupt
 indf
 int2double
 intcon
@@ -611,7 +603,6 @@ inte
 inte_bit
 intedg
 intedg_bit
-interrupt
 intf
 intf_bit
 inttohex
@@ -652,7 +643,6 @@ ispunct
 isspace
 isupper
 isxdigit
-iterator
 j
 keypad_init
 keypad_key_click
@@ -680,7 +670,6 @@ lcd_rs
 lcd_rs_direction
 ldexp
 ldiv
-locker
 log
 log10
 longint2double
@@ -748,9 +737,6 @@ mul_32x32_s
 mul_32x32_u
 mul_8x8_s
 mul_8x8_u
-mutex
-mutex1
-nextusernum
 not_a
 not_a_bit
 not_address
@@ -782,7 +768,6 @@ not_write_bit
 nr_free_blocks
 nrm3232
 nrm4032
-numofusers
 numusers
 oerr
 oerr_bit
@@ -1334,6 +1319,7 @@ strcspn
 strd
 strd_bit
 string
+string2
 strlen
 strncat
 strncmp
@@ -1420,8 +1406,6 @@ t6963c_writecommand
 t6963c_writedata
 tan
 tanh
-temp_res
-text
 time_datetoepoch
 time_epochtodate
 time_jd1970
@@ -1589,10 +1573,6 @@ ulpwuie
 ulpwuie_bit
 ulpwuif
 ulpwuif_bit
-usercode
-users
-validateinput
-validateusernum
 vcfg0
 vcfg0_bit
 vcfg1
@@ -1655,7 +1635,6 @@ wren
 wren_bit
 wrerr
 wrerr_bit
-writeineeprom
 wue
 wue_bit
 xtoi

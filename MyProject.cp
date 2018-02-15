@@ -1,4 +1,4 @@
-#line 1 "C:/Users/vikto/Project7/ProjectMPS/MyProject.c"
+#line 1 "C:/Users/vikto/Desktop/proba/MyProject.c"
 
 sbit LCD_RS at RD4_bit;
 sbit LCD_EN at RD5_bit;
@@ -14,289 +14,160 @@ sbit LCD_D6_Direction at TRISD2_bit;
 sbit LCD_D7_Direction at TRISD3_bit;
 
 char keypadPort at PORTC;
-char kp;
-char string[16];
-char text[16];
-int i,j,numUsers,addr;
-char uart_rd,ch,users;
-char userCode[16];
-unsigned int temp_res;
-short ifinterupt=0;
-int counter;
-int iterator;
-int locker;
-int mutex,mutex1;
+char string[16],string2[10];
+char uart_rd,kp;
+unsigned short numUsers,i,j,addr,a;
 
-void ReadFromUART(){
-i=0;
- while(1) {
- Delay_ms(10);
- if (UART1_Data_Ready())
- {
- uart_rd = UART1_Read();
- string[i]=uart_rd;
- i++;
- }
- Delay_ms(10);
- if (!UART1_Data_Ready()&&i!=0)
- {
+void ReadFromUART();
 
- break;
-
-
- }
- }
-}
- int NumOfUsers(){
- ch = EEPROM_Read(0x10);
- return atoi(ch);
-
-}
-int CheckEEPROM(){
- users=NumOfUsers();
- if(users!=255){
- return 1;
-
- }else{
- return 0;
- }
-
-}
-
-int NextUserNum(){
- if(CheckEEPROM()){
- return NumOfUsers()*16;
- }else{
- return 16;
- }
-}
-
-int ValidateUserNum( int num) {
-if(num>=160){
-return 0;
-}else{
-return 1;
-}
-}
-
-int AddressVal(){
-if(ValidateUserNum(NextUserNum())){
-return NextUserNum()+16;
-}else{
-return 0;
-}
-}
-int ValidateInput(){
- if(strcmp(strstr(string," ")," ")==0)
- {
-
-
- counter=0;
- iterator=0;
- locker=1;
- Lcd_Out(1,1,"DEBUG");
- for(j=0;j<strlen(string);j++){
- if(isdigit(string[j])&&locker==1){
- counter++;
- Lcd_Out(1,1,"DEBUG2");
- }else if(isspace(string[j])&&counter==j){
- locker=0;
- Lcd_Out(1,1,"DEBUG3");
-
-
- }else{
- Lcd_Out(1,1,"DEBUG4");
- return 0;
- }
- if(locker==0){
- if(isdigit(string[j])){
- Lcd_Out(1,1,"DEBUG");
- userCode[iterator]=string[j];
- iterator++;
-
- } else{
- return 0;
- }
- }
-
-
- }
- if(atoi(userCode)>1023&&atoi(userCode)!=0){
- return 0;
- }else{
- Lcd_Out(1,1,"DEBUG");
- return 1;
- }
- }else{
- return 0;
- }
-
-
-
-}
-void WriteInEEPROM(){
- if(AddressVal()!=0){
- addr+=AddressVal();
-
- ReadFromUART();
- if( ValidateInput()!=0){
- for(j=0; j<=15; j++)
- {
- EEPROM_Write(addr + j,string[j]);
- }
- numUsers=NumOfUsers();
- numUsers++;
-
- EEPROM_Write(0x00,numUsers);
- Lcd_Out(1,1,"OK");
-
- }else{
- Lcd_Out(1,1,"EROR");
-
- }
- }
-}
-void EraseUser(int address){
- memset(text,255,sizeof(text));
- for(j=0; j<=15; j++)
- {
- EEPROM_Write(addr + j,text[j]);
- }
- numUsers--;
- EEPROM_Write(0x00,numUsers);
-}
-void findUserId(){
- memset(string,0,sizeof(string));
- ReadFromUART();
- memset(text,0,sizeof(text));
- addr=0x10;
- for(i-0;i<10;i++){
- for(j=0;j<=15;j++)
- {
- ch = EEPROM_Read(addr+j);
- text[j]=ch;
- }
- if(strcmp(strstr(string,text),text)==0){
- EraseUser(addr);
-
- }
- addr+=16;
- }
-
-
-}
-void EraseOption(){
- if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
- Lcd_Out(2,1,strstr(string,"ERASE"));
- while(strcmp(strstr(string,"START"),"START")!=0){
- ReadFromUART();
-
- if(strcmp(strstr(string,"START"),"START")==0){
-
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(2,1,strstr(string,"START"));
- findUserId();
- }
- }
- }
-
-
-}
-
-void ADDOption(){
-Lcd_Cmd(_LCD_CLEAR);
-if(strcmp(strstr(string,"ADD"),"ADD")==0)
- {
-
- Lcd_Out(2,1,strstr(string,"ADD"));
- while(strcmp(strstr(string,"START"),"START")!=0)
- {
- ReadFromUART();
-
-
-
- if(strcmp(strstr(string,"START"),"START")==0)
- {
-
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(2,1,strstr(string,"START"));
- memset(string,0,sizeof(string));
- Lcd_Cmd(_LCD_CLEAR);
-
- WriteInEEPROM();
-
- break;
- }
-
-
-
- }
-
-
- }
-}
-
-
-
-
-
-
-
-
-
-void interrupt(){
-if (INTF_bit==1){
- ifinterupt++;
- INTF_bit = 0;
- }
-}
 
 void main() {
+
+ ANSEL =0b00100000;
+ ANSELH =0x00;
+ TRISE=0b00000001;
+ TRISB=0b00000001;
+ INTCON=0x90;
+ C1ON_bit = 0;
+ C2ON_bit = 0;
  Lcd_Init();
  Lcd_Cmd(_LCD_CURSOR_OFF);
  Lcd_Cmd(_LCD_CLEAR);
- C1ON_bit = 0;
- C2ON_bit = 0;
  UART1_Init(9600);
- Delay_ms(5);
+
  addr=0x00;
  j=0;
- PORTB=0x00;
- TRISB=0x01;
- INTCON=0x90;
  while(1)
  {
  Lcd_Out(1,1,string);
  ReadFromUART();
-
  Lcd_Cmd(_LCD_CLEAR);
  Lcd_Out(1,1,string);
- Delay_ms(1);
- ADDOption();
- EraseOption();
 
- if(strcmp(strstr(string,"END"),"END")==0){
- memset(string,0,sizeof(string));
-j=0;
+ if(strcmp(strstr(string,"ADD"),"ADD")==0)
+ {
+ Lcd_Out(2,1,strstr(string,"ADD"));
+ while(strcmp(strstr(string,"START"),"START")!=0){
+ ReadFromUART();
+ if(strcmp(strstr(string,"START"),"START")==0){
+
  Lcd_Cmd(_LCD_CLEAR);
- mutex=0;
- mutex1=0;
-while(ifinterupt==0){
- Lcd_Out(1,1,"v n E s i b r o j");
+ Lcd_Out(2,1,strstr(string,"START"));
+ memset(string,0,strlen(string));
+ Lcd_Cmd(_LCD_CLEAR);
+ ReadFromUART();
+
+ numUsers=EEPROM_Read(0x00);
+ j=0;
+
+ for(i=0;i<strlen(string);i++){
+ if(string[i]<='9'&&string[i]>='0'){
+ j=1;
+ }else if(isspace(string[i])&&i<=10){
+ j=2;
+ }else{
+ j=0;
+ break;
+ }
+ }
+
+ if(j==0){
+ Lcd_Out(1,1,"ERROR");
+ Lcd_Cmd(_LCD_CLEAR);
+ break;
+ }else{
+ if(numUsers<10||numUsers==255){
+ if(numUsers==255){
+ addr=0x10;
+ numUsers=0;
+ }else{
+ addr+=numUsers*0x10;
+ }
+ for(j=0; j<strlen(string); j++)
+ {
+ EEPROM_Write(addr + j,string[j]);
+ }
+ numUsers++;
+ EEPROM_Write(0x00,numUsers);
+ Lcd_Out(1,1,"O K  ");
+ break;
+
+
+ }else {
+
+ Lcd_Out(1,1,"ERROR");
+ Lcd_Cmd(_LCD_CLEAR);
+ break;
+
+ }
+
+ }
+
+ }
+ }
+ }
+
+ if(strcmp(strstr(string,"ERASE"),"ERASE")==0){
+ Lcd_Out(2,1,strstr(string,"ERASE"));
+ while(strcmp(strstr(string,"START"),"START")!=0){
+ ReadFromUART();
+ if(strcmp(strstr(string,"START"),"START")==0){
+
+ Lcd_Cmd(_LCD_CLEAR);
+ Lcd_Out(2,1,strstr(string,"START"));
+ Lcd_Cmd(_LCD_CLEAR);
+ memset(string,0,strlen(string));
+ memset(string2,0,strlen(string2));
+ ReadFromUART();
+
+ for(a=0,addr=0x10;a<=numUsers;addr+=0x10,a++){
+ for(j=0;j<strlen(string);j++){
+ string2[j]=EEPROM_Read(addr+j);
+ if(isspace(string2[j])){
+ string2[j]='\0';
+ break;
+ }
+ }
+ if(strcmp(strstr(string2,string),string)==0){
+ a=20;
+ break;
+ }else{
+ memset(string2,0,strlen(string2));
+ }
+
+ }
+ if(a==20){
+ for(j=0;j<15;j++){
+ EEPROM_Write(addr+j,255);
+ }
+ --numUsers;
+ EEPROM_Write(0x00,numUsers);
+ }
+
+
+ break;
+ }
+ }
+ }
+ if(strcmp(strstr(string,"END"),"END")==0){
+ Lcd_Out(2,1,strstr(string,"END"));
+
+ while(1){
+ lcd_Cmd(_LCD_CLEAR);
+ Lcd_Out(1,1,"vnEsibroj");
  do
  kp = Keypad_Key_Click();
  while (!kp);
- switch (kp)
- {
+ switch (kp){
  case 1: kp = 49; break;
  case 2: kp = 52; break;
  case 3: kp = 55; break;
- case 4: kp = 126; break;
- case 5: kp=50; break;
+ case 4: kp = 99;break;
+ case 5: kp = 50; break;
  case 6: kp = 53; break;
  case 7: kp = 56; break;
  case 8: kp = 48; break;
- case 9: kp=51; break;
+ case 9: kp = 51; break;
  case 10: kp = 54; break;
  case 11: kp = 57; break;
  case 12: kp = 36; break;
@@ -305,68 +176,33 @@ while(ifinterupt==0){
  case 15: kp = 35; break;
  case 16: kp = 42; break;
  }
- if(kp!=0&&kp!=42&&kp!=35&&kp!=33&&kp!=37&&kp!=36&&kp!=126){
- string[j]=kp;
- }
- if(kp==36){
- j--;
- }
- if(kp==33){
- temp_res=ADC_Read(2);
- IntToStr(text,temp_res);
- mutex=1 ;
+
+
 
  }
- if(kp==37){
- mutex1=1;
  }
- if(kp==42&&mutex==1){
- if(strcmp(string,text)==0){
  Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(1,1,"v a l i d n a");
- Lcd_Out(2,1,"a v t o R i z a c i j a");
- }else{
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(1,1,"n e v a l i d n a");
- Lcd_Out(2,1,"a v t o R i z a c i j a");
+ memset(string,0,strlen(string));
  }
- }
- if(kp==42&&mutex1==1){
- addr=0x10;
 
- for(i-0;i<10;i++){
- memset(text,0,sizeof(text));
- for(counter=0;counter<=15;counter++)
+
+}
+
+
+void ReadFromUART(){
+ i=0;
+ while(1){
+ Delay_ms(5);
+ if (UART1_Data_Ready())
  {
- ch = EEPROM_Read(addr+counter);
- text[counter]=ch;
+ uart_rd = UART1_Read();
+ string[i]=uart_rd;
+ i++;
  }
- if(strcmp(strstr(string,text),string)==0){
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(1,1,"V a l i d e n");
- Lcd_Out(2,1,"k o R i s n i k");
-
- }
- addr+=16;
- }
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Out(1,1,"n e V a l i d e n");
- Lcd_Out(2,1,"k o R i s n i k");
- }
-
-
-
- }
- memset(text,255,sizeof(text));
- addr=0x00;
- for(i-0;i<10;i++){
- for(j=0; j<=15; j++)
+ Delay_ms(5);
+ if (!UART1_Data_Ready()&&i!=0)
  {
- EEPROM_Write(addr + j,text[j]);
+ break;
  }
- addr+=16;
- }
- }
-
  }
 }
